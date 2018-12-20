@@ -72,9 +72,6 @@ namespace DaanLibUnitTests {
             for (int i = 0; i < 10; i++)
                 list.AddFirst(i);
 
-            foreach (int node in list)
-                Console.WriteLine(node);
-
             int l = list[10];
         }
     }

@@ -79,16 +79,14 @@ namespace DaanLib.Datastructures {
         /// Creates a string representation of this Node's data
         /// </summary>
         /// <returns>A string representation of this Node's data</returns>
-        public override string ToString() {
-            return data.ToString();
-        }
+        public override string ToString() => data.ToString();
     }
 
     /// <summary>
     /// A Linked List
     /// </summary>
     /// <typeparam name="T">The type stored in the nodes</typeparam>
-    public class LinkedList<T> : ICollection<T> {
+    public class LinkedList<T> : ICollection<T>, IEnumerable<T>, IEnumerable {
         /// <summary>
         /// The header of the list
         /// </summary>
@@ -152,21 +150,19 @@ namespace DaanLib.Datastructures {
             get {
                 int i = 0;
                 LinkedListNode<T> current = header.next;
-                while (current != tail)
+                while (current.next != tail) {
+                    current = current.next;
                     i++;
+                }
                 return i;
             }
         }
 
-        public bool IsReadOnly { get { return false; } }
+        public bool IsReadOnly => false;
 
-        public IEnumerator<T> GetEnumerator() {
-            return (IEnumerator<T>)new LinkedListEnumerator<T>(this);
-        }
+        public IEnumerator<T> GetEnumerator() => new LinkedListEnumerator<T>(this);
 
-        IEnumerator IEnumerable.GetEnumerator() {
-            return (IEnumerator<T>)new LinkedListEnumerator<T>(this);
-        }
+        IEnumerator IEnumerable.GetEnumerator() => new LinkedListEnumerator<T>(this);
 
         /// <summary>
         /// Instantiates a new Linked List
@@ -398,11 +394,12 @@ namespace DaanLib.Datastructures {
         }
 
         public bool MoveNext() {
-            if (++curIndex >= _collection.Count) {
+            if (++curIndex >= _collection.Count || curNode.next == _collection.tail) {
                 return false;
             } else {
                 curNode = curNode.next;
             }
+            Console.WriteLine(curNode);
             return true;
         }
 
