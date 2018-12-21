@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Drawing;
 
-namespace DaanLib {
+namespace DaanLib.Maths {
+    /// <summary>
+    /// A 2D vector with an X and a Y
+    /// </summary>
     public sealed class Vector2D {
+        #region Variables
         /// <summary>
         /// The X value
         /// </summary>
@@ -13,17 +17,42 @@ namespace DaanLib {
         public float y;
 
         /// <summary>
+        /// A Vector2D that points up
+        /// </summary>
+        public static readonly Vector2D Up = new Vector2D(0, 1);
+        /// <summary>
+        /// A Vector2D that points right
+        /// </summary>
+        public static readonly Vector2D Right = new Vector2D(1, 0);
+        /// <summary>
+        /// A Vector2D that points down
+        /// </summary>
+        public static readonly Vector2D Down = new Vector2D(0, -1);
+        /// <summary>
+        /// A Vector2D that points left
+        /// </summary>
+        public static readonly Vector2D Left = new Vector2D(-1, 0);
+        /// <summary>
+        /// A zero-based Vector2D
+        /// </summary>
+        public static readonly Vector2D Zero = new Vector2D(0, 0);
+        #endregion
+        #region Constructors
+        /// <summary>
         /// Emtpy constructor, setting both values to 0
         /// </summary>
-        public Vector2D() {
-            x = y = 0.0f;
-        }
+        public Vector2D() => x = y = 0.0f;
 
         /// <summary>
         /// Creates a vector from an existing vector
         /// </summary>
         /// <param name="vec">The vector to copy</param>
         public Vector2D(Vector2D vec) {
+            x = vec.x;
+            y = vec.y;
+        }
+
+        public Vector2D(Vector3D vec) {
             x = vec.x;
             y = vec.y;
         }
@@ -37,13 +66,55 @@ namespace DaanLib {
             this.x = x;
             this.y = y;
         }
+        #endregion
+        #region Operator Overloads
+        public static Vector2D operator +(Vector2D a, Vector2D b) => new Vector2D(a.x + b.x, a.y + b.y);
 
+        public static Vector2D operator -(Vector2D a, Vector2D b) => new Vector2D(a.x - b.x, a.y - b.y);
+
+        public static Vector2D operator *(Vector2D v, float f) => new Vector2D(v.x * f, v.y * f);
+        public static Vector2D operator *(Vector2D v, int i) => new Vector2D(v.x * i, v.y * i);
+        public static Vector2D operator *(float f, Vector2D v) => new Vector2D(v.x * f, v.y * f);
+        public static Vector2D operator *(int i, Vector2D v) => new Vector2D(v.x * i, v.y * i);
+        public static Vector2D operator *(Vector2D v1, Vector2D v2) => new Vector2D(v1.x * v2.x, v1.y * v2.y);
+
+        public static Vector2D operator /(Vector2D v, float f) => new Vector2D(v.x / f, v.y / f);
+        public static Vector2D operator /(Vector2D v, int i) => new Vector2D(v.x / i, v.y / i);
+        public static Vector2D operator /(float f, Vector2D v) => new Vector2D(v.x / f, v.y / f);
+        public static Vector2D operator /(int i, Vector2D v) => new Vector2D(v.x / i, v.y / i);
+        public static Vector2D operator /(Vector2D v1, Vector2D v2) => new Vector2D(v1.x / v2.x, v1.y / v2.y);
+
+        public static Vector2D operator %(Vector2D v1, Vector2D v2) => new Vector2D(v1.x % v2.x, v1.y % v2.y);
+        public static Vector2D operator %(Vector2D v, int i) => new Vector2D(v.x % i, v.y % i);
+
+        public static bool operator ==(Vector2D v1, Vector2D v2) => v1.x == v2.x && v1.y == v2.y;
+        public static bool operator !=(Vector2D v1, Vector2D v2) => v1.x != v2.x || v1.y != v2.y;
+        #endregion
+        #region Conversions
+        #region Implicit Conversions
+        public static implicit operator Point(Vector2D v) => new Point((int)v.x, (int)v.y);
+        public static implicit operator Vector2D(Point p) => new Vector2D(p.X, p.Y);
+        public static implicit operator PointF(Vector2D v) => new PointF(v.x, v.y);
+        public static implicit operator Vector2D(PointF p) => new Vector2D(p.X, p.Y);
+
+        public static implicit operator Vector2D(ValueTuple<int, int> t) => new Vector2D(t.Item1, t.Item2);
+        public static implicit operator Vector2D(ValueTuple<float, float> t) => new Vector2D(t.Item1, t.Item2);
+        public static implicit operator ValueTuple<float, float>(Vector2D v) => (v.x, v.y);
+
+        public static implicit operator Size(Vector2D v) => new Size((int)v.x, (int)v.y);
+        public static implicit operator Vector2D(Size s) => new Vector2D(s.Width, s.Height);
+        public static implicit operator SizeF(Vector2D v) => new SizeF(v.x, v.y);
+        public static implicit operator Vector2D(SizeF s) => new Vector2D(s.Width, s.Height);
+        #endregion
+        #region Explicit Conversions
+        public static explicit operator Vector2D(Vector3D v) => new Vector2D(v);
+        #endregion
+        #endregion
+        #region Functions
         /// <summary>
         /// Sets both values to 0;
         /// </summary>
-        public void SetZero() {
-            x = y = 0.0f;
-        }
+        public void SetZero() => x = y = 0.0f;
 
         /// <summary>
         /// Checks whether both values are 0
@@ -257,62 +328,6 @@ namespace DaanLib {
             return v.x * v.x + v.y * v.y;
         }
 
-        // OPERATOR OVERLOADING
-        public static Vector2D operator +(Vector2D a, Vector2D b) => new Vector2D(a.x + b.x, a.y + b.y);
-
-        public static Vector2D operator -(Vector2D a, Vector2D b) => new Vector2D(a.x - b.x, a.y - b.y);
-
-        public static Vector2D operator *(Vector2D v, float f) => new Vector2D(v.x * f, v.y * f);
-        public static Vector2D operator *(Vector2D v, int i) => new Vector2D(v.x * i, v.y * i);
-        public static Vector2D operator *(float f, Vector2D v) => new Vector2D(v.x * f, v.y * f);
-        public static Vector2D operator *(int i, Vector2D v) => new Vector2D(v.x * i, v.y * i);
-
-        public static Vector2D operator /(Vector2D v, float f) => new Vector2D(v.x / f, v.y / f);
-        public static Vector2D operator /(Vector2D v, int i) => new Vector2D(v.x / i, v.y / i);
-        public static Vector2D operator /(float f, Vector2D v) => new Vector2D(v.x / f, v.y / f);
-        public static Vector2D operator /(int i, Vector2D v) => new Vector2D(v.x / i, v.y / i);
-
-        public static Vector2D operator %(Vector2D v1, Vector2D v2) => new Vector2D(v1.x % v2.x, v1.y % v2.y);
-
-        public static bool operator ==(Vector2D v1, Vector2D v2) => v1.x == v2.x && v1.y == v2.y;
-        public static bool operator !=(Vector2D v1, Vector2D v2) => v1.x != v2.x || v1.y != v2.y;
-
-        // IMPLICIT CONVERTIONS
-        public static implicit operator Point(Vector2D v) {
-            return new Point((int)v.x, (int)v.y);
-        }
-
-        public static implicit operator Vector2D(Point p) {
-            return new Vector2D(p.X, p.Y);
-        }
-
-        public static implicit operator PointF(Vector2D v) {
-            return new PointF(v.x, v.y);
-        }
-
-        public static implicit operator Vector2D(PointF p) {
-            return new Vector2D(p.X, p.Y);
-        }
-
-        public static implicit operator Size(Vector2D v) {
-            return new Size((int)v.x, (int)v.y);
-        }
-
-        public static implicit operator Vector2D(Size s) {
-            return new Vector2D(s.Width, s.Height);
-        }
-
-        public static implicit operator SizeF(Vector2D v) {
-            return new SizeF(v.x, v.y);
-        }
-
-        // STATIC VALUES
-        public static readonly Vector2D Up = new Vector2D(0, -1);
-        public static readonly Vector2D Right = new Vector2D(1, 0);
-        public static readonly Vector2D Down = new Vector2D(0, 1);
-        public static readonly Vector2D Left = new Vector2D(-1, 0);
-        public static readonly Vector2D Zero = new Vector2D(0, 0);
-
         /// <summary>
         /// Checks whether the 2 vectors are equal
         /// </summary>
@@ -322,7 +337,7 @@ namespace DaanLib {
             if (obj == null)
                 return false;
             else if (obj is Vector2D v)
-                return (x.Equals(v.x) && y.Equals(v.y));
+                return this == v;
             else
                 return false;
         }
@@ -343,7 +358,8 @@ namespace DaanLib {
         /// </summary>
         /// <returns>A string as followed: "[x, y]"</returns>
         public override string ToString() {
-            return String.Format("[{0}, {1}]", x, y);
+            return $"[{x}, {y}]";
         }
+#endregion
     }
 }

@@ -8,7 +8,7 @@ namespace DaanLib.Datastructures {
     /// A node from the Linked List
     /// </summary>
     /// <typeparam name="T">The class type stored in the Node</typeparam>
-    public class LinkedListNode<T> {
+    internal sealed class LinkedListNode<T> {
         /// <summary>
         /// The data in the Node
         /// </summary>
@@ -86,7 +86,7 @@ namespace DaanLib.Datastructures {
     /// A Linked List
     /// </summary>
     /// <typeparam name="T">The type stored in the nodes</typeparam>
-    public class LinkedList<T> : ICollection<T>, IEnumerable<T>, IEnumerable {
+    public sealed class LinkedList<T> : ICollection<T>, IEnumerable<T>, IEnumerable {
         /// <summary>
         /// The header of the list
         /// </summary>
@@ -150,7 +150,7 @@ namespace DaanLib.Datastructures {
             get {
                 int i = 0;
                 LinkedListNode<T> current = header.next;
-                while (current.next != tail) {
+                while (current != tail) {
                     current = current.next;
                     i++;
                 }
@@ -399,7 +399,6 @@ namespace DaanLib.Datastructures {
             } else {
                 curNode = curNode.next;
             }
-            Console.WriteLine(curNode);
             return true;
         }
 
@@ -410,10 +409,8 @@ namespace DaanLib.Datastructures {
 
         void IDisposable.Dispose() { }
 
-        public T current => curNode.data;
+        object IEnumerator.Current => Current;
 
-        object IEnumerator.Current => current;
-
-        public T Current => Current;
+        public T Current => curNode.data;
     }
 }

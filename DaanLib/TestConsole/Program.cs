@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DaanLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,13 +10,15 @@ namespace TestConsole {
         static void Main(string[] args) {
             DaanLib.Datastructures.LinkedList<int> list = new DaanLib.Datastructures.LinkedList<int>();
 
-            for (int i = 0; i < 10; i++) {
-                list.Add(i);
-            }
+            Vector2D v = new Vector2D(5, 10);
 
-            foreach (int i in list) {
-                Console.WriteLine(i);
-            }
+            Matrix m = new Matrix(v);
+
+            Console.WriteLine(m);
+
+            Console.WriteLine(Matrix.Identity(5));
+
+            Console.ReadKey();
         }
     }
 }
