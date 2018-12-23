@@ -52,7 +52,7 @@ namespace DaanLib.Maths {
         #endregion
         #region Constructors
         /// <summary>
-        /// Creates a 2 by 2 identity Matrix 
+        /// Instantiates a new Matrix as 2 by 2 identity matrix
         /// </summary>
         public Matrix() {
             matrix = Identity().matrix;
@@ -60,7 +60,7 @@ namespace DaanLib.Maths {
         }
 
         /// <summary>
-        /// Creates a 2 by 2 Matrix and stores the Vector in it
+        /// Instantiates a new Matrix based on a Vector2D
         /// </summary>
         /// <param name="v">The vector to store in the Matrix</param>
         public Matrix(Vector2D v) {
@@ -74,7 +74,22 @@ namespace DaanLib.Maths {
         }
 
         /// <summary>
-        /// Creates a new Matrix with a specified size
+        /// Instantiates a new Matrix based on a Vector3d
+        /// </summary>
+        /// <param name="v"></param>
+        public Matrix(Vector3D v) {
+            matrix = new float[3, 3];
+
+            columns = 3;
+            rows = 3;
+
+            matrix[0, 0] = v.x;
+            matrix[1, 0] = v.y;
+            matrix[2, 0] = v.z;
+        }
+
+        /// <summary>
+        /// Instantiates a Matrix based on a certain number of rows and columns
         /// </summary>
         /// <param name="rows">The number of rows in the Matrix</param>
         /// <param name="columns">The number of columns in the Matrix</param>
@@ -156,15 +171,25 @@ namespace DaanLib.Maths {
         /// Multiplies a Matrix with a 2D Vector
         /// </summary>
         /// <param name="a">The Matrix to multiply with</param>
-        /// <param name="b">The Vector to multiply</param>
+        /// <param name="v">The Vector to multiply</param>
         /// <returns>The resulting Vector2D</returns>
-        public static Vector2D operator *(Matrix a, Vector2D b) {
+        public static Vector2D operator *(Matrix a, Vector2D v) {
             float x, y;
 
-            x = (a[0, 0] * b.x) + (a[0, 1] * b.y);
-            y = (a[1, 0] * b.x) + (a[1, 1] * b.y);
+            x = (a[0, 0] * v.x) + (a[0, 1] * v.y);
+            y = (a[1, 0] * v.x) + (a[1, 1] * v.y);
 
             return new Vector2D(x, y);
+        }
+
+        public static Vector3D operator *(Matrix a, Vector3D v) {
+            float x, y, z;
+
+            x = (a[0, 0] * v.x) + (a[0, 1] * v.y) + (a[0, 2] * v.z);
+            y = (a[1, 0] * v.x) + (a[1, 1] * v.y) + (a[1, 2] * v.z);
+            z = (a[2, 0] * v.x) + (a[2, 1] * v.y) + (a[2, 2] * v.z);
+
+            return new Vector3D(x, y, z);
         }
 
         /// <summary>
@@ -225,6 +250,10 @@ namespace DaanLib.Maths {
             return this * point;
         }
 
+        public Vector3D TransformVector3D(Vector3D point) {
+            return this * point;
+        }
+
         /// <summary>
         /// Translates this Matrix through a Vector2D
         /// </summary>
@@ -238,6 +267,16 @@ namespace DaanLib.Maths {
             rows = columns = 3;
         }
 
+        public void Translate(Vector3D v) {
+            Matrix m = Identity(4);
+            m[3, 0] = v.x;
+            m[3, 1] = v.y;
+            m[3, 2] = v.z;
+
+            matrix = (this * m).matrix;
+            rows = columns = 4;
+        }
+
         /// <summary>
         /// Scales this Matrix based on a Vector2D
         /// </summary>
@@ -249,6 +288,16 @@ namespace DaanLib.Maths {
 
             matrix = (this * m).matrix;
             rows = columns = 3;
+        }
+
+        public void Scale(Vector3D v) {
+            Matrix m = Identity(4);
+            m[0, 0] = v.x;
+            m[1, 1] = v.y;
+            m[2, 2] = v.y;
+
+            matrix = (this * m).matrix;
+            rows = columns = 4;
         }
 
         /// <summary>

@@ -19,32 +19,32 @@ namespace DaanLib.Maths {
         /// <summary>
         /// A Vector2D that points up
         /// </summary>
-        public static readonly Vector2D Up = new Vector2D(0, 1);
+        public static Vector2D Up => new Vector2D(0, 1);
         /// <summary>
         /// A Vector2D that points right
         /// </summary>
-        public static readonly Vector2D Right = new Vector2D(1, 0);
+        public static Vector2D Right => new Vector2D(1, 0);
         /// <summary>
         /// A Vector2D that points down
         /// </summary>
-        public static readonly Vector2D Down = new Vector2D(0, -1);
+        public static Vector2D Down => new Vector2D(0, -1);
         /// <summary>
         /// A Vector2D that points left
         /// </summary>
-        public static readonly Vector2D Left = new Vector2D(-1, 0);
+        public static Vector2D Left => new Vector2D(-1, 0);
         /// <summary>
         /// A zero-based Vector2D
         /// </summary>
-        public static readonly Vector2D Zero = new Vector2D(0, 0);
+        public static Vector2D Zero => new Vector2D(0, 0);
         #endregion
         #region Constructors
         /// <summary>
-        /// Emtpy constructor, setting both values to 0
+        /// Instantiates a new Vector2D with an empty X and Y
         /// </summary>
         public Vector2D() => x = y = 0.0f;
 
         /// <summary>
-        /// Creates a vector from an existing vector
+        /// Instantiates a new Vector2D based on another Vector2D
         /// </summary>
         /// <param name="vec">The vector to copy</param>
         public Vector2D(Vector2D vec) {
@@ -52,16 +52,20 @@ namespace DaanLib.Maths {
             y = vec.y;
         }
 
+        /// <summary>
+        /// Instantiates a new Vector2D based on a Vector3D
+        /// </summary>
+        /// <param name="vec"></param>
         public Vector2D(Vector3D vec) {
             x = vec.x;
             y = vec.y;
         }
 
         /// <summary>
-        /// Creates a vector from 2 values
+        /// Instantiates a new Vector2D based on a X and a Y
         /// </summary>
-        /// <param name="x">X</param>
-        /// <param name="x">Y</param>
+        /// <param name="x">The X value</param>
+        /// <param name="x">The Y Value</param>
         public Vector2D(float x, float y) {
             this.x = x;
             this.y = y;
@@ -360,6 +364,6 @@ namespace DaanLib.Maths {
         public override string ToString() {
             return $"[{x}, {y}]";
         }
-#endregion
+        #endregion
     }
 }

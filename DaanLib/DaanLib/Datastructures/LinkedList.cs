@@ -86,7 +86,7 @@ namespace DaanLib.Datastructures {
     /// A Linked List
     /// </summary>
     /// <typeparam name="T">The type stored in the nodes</typeparam>
-    public sealed class LinkedList<T> : ICollection<T>, IEnumerable<T>, IEnumerable {
+    public sealed class LinkedList<T> : ICollection<T>, IEnumerable<T>, IEnumerable, ILinkedList<T> {
         /// <summary>
         /// The header of the list
         /// </summary>
@@ -159,6 +159,8 @@ namespace DaanLib.Datastructures {
         }
 
         public bool IsReadOnly => false;
+
+        public bool IsEmpty => header.next == tail;
 
         public IEnumerator<T> GetEnumerator() => new LinkedListEnumerator<T>(this);
 

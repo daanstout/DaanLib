@@ -5,11 +5,52 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DaanLib.Maths {
+    /// <summary>
+    /// A 3D Vector with an x, a Y and a Z
+    /// </summary>
     public sealed class Vector3D {
         #region Variables
+        /// <summary>
+        /// The X value
+        /// </summary>
         public float x;
+        /// <summary>
+        /// The Y value
+        /// </summary>
         public float y;
+        /// <summary>
+        /// The z value
+        /// </summary>
         public float z;
+
+        /// <summary>
+        /// A Vector3D that points up
+        /// </summary>
+        public static Vector3D up => new Vector3D(0, 1, 0);
+        /// <summary>
+        /// A Vector3D that points down
+        /// </summary>
+        public static Vector3D down => new Vector3D(0, -1, 0);
+        /// <summary>
+        /// A Vector3D that points left
+        /// </summary>
+        public static Vector3D left => new Vector3D(-1, 0, 0);
+        /// <summary>
+        /// A Vector3D that points right
+        /// </summary>
+        public static Vector3D right => new Vector3D(1, 0, 0);
+        /// <summary>
+        /// A Vector3D that points forward
+        /// </summary>
+        public static Vector3D forward => new Vector3D(0, 0, 1);
+        /// <summary>
+        /// A Vector3D that points backwards
+        /// </summary>
+        public static Vector3D backward => new Vector3D(0, 0, -1);
+        /// <summary>
+        /// A Zero-based Vector3D
+        /// </summary>
+        public static Vector3D zero => new Vector3D(0, 0, 0);
         #endregion
         #region Constructors
         public Vector3D() => x = y = z = 0;
@@ -62,7 +103,7 @@ namespace DaanLib.Maths {
         #region Explicit Conversions
         public static explicit operator Vector3D(Vector2D v) => new Vector3D(v);
         #endregion
-
+        #region Functions
         public void SetZero() => x = y = z = 0.0f;
 
         public bool IsZero() => x == 0 && y == 0 && z == 0;
@@ -136,8 +177,19 @@ namespace DaanLib.Maths {
                 z = maxZ;
         }
 
-        public void NotInsideRegion(Vector3D top_left, Vector3D bottom_right) {
+        public bool NotInsideRegion(Vector3D top_left, Vector3D bottom_right) {
+            return x < top_left.x || x > bottom_right.x || y < top_left.x || y > bottom_right.x || z < top_left.z || z > bottom_right.z;
+        }
 
+        public bool InsideRegion(Vector3D top_left, Vector3D bottom_right) {
+            return !(x < top_left.x || x > bottom_right.x || y < top_left.x || y > bottom_right.x || z < top_left.z || z > bottom_right.z);
+        }
+
+        public bool IsSecondInFOVOfFirst(Vector3D posFirst, Vector3D facingFirst, Vector3D posSecond, float fov) {
+            Vector3D toTarget = posSecond - posFirst;
+            toTarget.Normalize();
+
+            return facingFirst.Dot(toTarget) >= Math.Cos(fov / 2);
         }
 
         public override bool Equals(object obj) {
@@ -159,5 +211,6 @@ namespace DaanLib.Maths {
         public override string ToString() {
             return $"[{x}, {y}, {z}]";
         }
+        #endregion
     }
 }
