@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace TestConsole {
-    class Program {
-        static void Main(string[] args) {
+    internal class Program {
+        private static void Main(string[] args) {
             DaanLib.Datastructures.LinkedList<int> list = new DaanLib.Datastructures.LinkedList<int>();
 
             Vector2D v = new Vector2D(5, 10);

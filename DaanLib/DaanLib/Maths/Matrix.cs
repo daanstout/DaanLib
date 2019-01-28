@@ -246,13 +246,9 @@ namespace DaanLib.Maths {
         /// </summary>
         /// <param name="point">The Vector2D to transform</param>
         /// <returns>The transformed Vector2D</returns>
-        public Vector2D TransformVector2D(Vector2D point) {
-            return this * point;
-        }
+        public Vector2D TransformVector2D(Vector2D point) => this * point;
 
-        public Vector3D TransformVector3D(Vector3D point) {
-            return this * point;
-        }
+        public Vector3D TransformVector3D(Vector3D point) => this * point;
 
         /// <summary>
         /// Translates this Matrix through a Vector2D
@@ -294,7 +290,7 @@ namespace DaanLib.Maths {
             Matrix m = Identity(4);
             m[0, 0] = v.x;
             m[1, 1] = v.y;
-            m[2, 2] = v.y;
+            m[2, 2] = v.z;
 
             matrix = (this * m).matrix;
             rows = columns = 4;

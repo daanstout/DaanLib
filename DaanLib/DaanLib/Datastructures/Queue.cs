@@ -44,9 +44,7 @@ namespace DaanLib.Datastructures {
             return item;
         }
 
-        public void MakeEmpty() {
-            front = back = queueSize = 0;
-        }
+        public void MakeEmpty() => front = back = queueSize = 0;
 
         private void DoubleQueue() {
             T[] temp = new T[queueMaxSize *= 2];

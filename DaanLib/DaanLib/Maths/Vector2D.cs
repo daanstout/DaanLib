@@ -244,9 +244,7 @@ namespace DaanLib.Maths {
         /// <param name="top_left">The top left corner</param>
         /// <param name="bot_rgt">The bottom right corner</param>
         /// <returns>True if it is NOT in the rectangle</returns>
-        public bool NotInsideRegion(Vector2D top_left, Vector2D bot_rgt) {
-            return (x < top_left.x) || (x > bot_rgt.x) || (y < top_left.y) || (y > bot_rgt.y);
-        }
+        public bool NotInsideRegion(Vector2D top_left, Vector2D bot_rgt) => (x < top_left.x) || (x > bot_rgt.x) || (y < top_left.y) || (y > bot_rgt.y);
 
         /// <summary>
         /// Checks whether the vector is within a given rectangle
@@ -254,9 +252,7 @@ namespace DaanLib.Maths {
         /// <param name="top_left">The top left corner</param>
         /// <param name="bot_rgt">The bottom right corner</param>
         /// <returns>True if it IS in the rectangle</returns>
-        public bool InsideRegion(Vector2D top_left, Vector2D bot_rgt) {
-            return !((x < top_left.x) || (x > bot_rgt.x) || (y < top_left.y) || (y > bot_rgt.y));
-        }
+        public bool InsideRegion(Vector2D top_left, Vector2D bot_rgt) => !((x < top_left.x) || (x > bot_rgt.x) || (y < top_left.y) || (y > bot_rgt.y));
 
         /// <summary>
         /// Checks whether the first is within view of the second
@@ -319,18 +315,14 @@ namespace DaanLib.Maths {
         /// </summary>
         /// <param name="v">The vector</param>
         /// <returns>The length of the vector</returns>
-        public static float Vec2DLength(Vector2D v) {
-            return (float)Math.Sqrt(v.x * v.x + v.y * v.y);
-        }
+        public static float Vec2DLength(Vector2D v) => (float)Math.Sqrt(v.x * v.x + v.y * v.y);
 
         /// <summary>
         /// Gets the unsquared length of the vector
         /// </summary>
         /// <param name="v">The vector</param>
         /// <returns>The unsquared length of the vector</returns>
-        public static float Vec2DLengthSq(Vector2D v) {
-            return v.x * v.x + v.y * v.y;
-        }
+        public static float Vec2DLengthSq(Vector2D v) => v.x * v.x + v.y * v.y;
 
         /// <summary>
         /// Checks whether the 2 vectors are equal
@@ -351,7 +343,7 @@ namespace DaanLib.Maths {
         /// </summary>
         /// <returns>The hashcode</returns>
         public override int GetHashCode() {
-            var hashCode = 1502939027;
+            int hashCode = 1502939027;
             hashCode = hashCode * -1521134295 + x.GetHashCode();
             hashCode = hashCode * -1521134295 + y.GetHashCode();
             return hashCode;
@@ -361,9 +353,7 @@ namespace DaanLib.Maths {
         /// Returns a string of the 2 vectors
         /// </summary>
         /// <returns>A string as followed: "[x, y]"</returns>
-        public override string ToString() {
-            return $"[{x}, {y}]";
-        }
+        public override string ToString() => $"[{x}, {y}]";
         #endregion
     }
 }

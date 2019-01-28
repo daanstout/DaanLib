@@ -126,7 +126,7 @@ namespace DaanLib.Maths {
         }
 
         public void Truncate(float max) {
-            if(Length() > max) {
+            if (Length() > max) {
                 Normalize();
 
                 x *= max;
@@ -177,13 +177,9 @@ namespace DaanLib.Maths {
                 z = maxZ;
         }
 
-        public bool NotInsideRegion(Vector3D top_left, Vector3D bottom_right) {
-            return x < top_left.x || x > bottom_right.x || y < top_left.x || y > bottom_right.x || z < top_left.z || z > bottom_right.z;
-        }
+        public bool NotInsideRegion(Vector3D top_left, Vector3D bottom_right) => x < top_left.x || x > bottom_right.x || y < top_left.x || y > bottom_right.x || z < top_left.z || z > bottom_right.z;
 
-        public bool InsideRegion(Vector3D top_left, Vector3D bottom_right) {
-            return !(x < top_left.x || x > bottom_right.x || y < top_left.x || y > bottom_right.x || z < top_left.z || z > bottom_right.z);
-        }
+        public bool InsideRegion(Vector3D top_left, Vector3D bottom_right) => !(x < top_left.x || x > bottom_right.x || y < top_left.x || y > bottom_right.x || z < top_left.z || z > bottom_right.z);
 
         public bool IsSecondInFOVOfFirst(Vector3D posFirst, Vector3D facingFirst, Vector3D posSecond, float fov) {
             Vector3D toTarget = posSecond - posFirst;
@@ -201,16 +197,14 @@ namespace DaanLib.Maths {
         }
 
         public override int GetHashCode() {
-            var hashCode = 1502939027;
+            int hashCode = 1502939027;
             hashCode = hashCode * -1521134295 + x.GetHashCode();
             hashCode = hashCode * -1521134295 + y.GetHashCode();
             hashCode = hashCode * -1521134295 + z.GetHashCode();
             return hashCode;
         }
 
-        public override string ToString() {
-            return $"[{x}, {y}, {z}]";
-        }
+        public override string ToString() => $"[{x}, {y}, {z}]";
         #endregion
     }
 }
