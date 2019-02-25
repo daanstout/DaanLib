@@ -5,16 +5,40 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DaanLib.Datastructures {
+    /// <summary>
+    /// A Node in the Binary Tree
+    /// </summary>
+    /// <typeparam name="T">The type of data to store</typeparam>
     internal sealed class Node<T> where T : IComparable {
-        internal T element;
+        /// <summary>
+        /// The data this Node contains
+        /// </summary>
+        internal T data;
+        /// <summary>
+        /// The Node to the left of this
+        /// </summary>
         internal Node<T> left;
+        /// <summary>
+        /// The node to the right of this
+        /// </summary>
         internal Node<T> right;
 
+        /// <summary>
+        /// Instantiates a new empty Node
+        /// </summary>
         internal Node() { }
 
-        internal Node(T element) => this.element = element;
+        /// <summary>
+        /// Instantiates a new Node with data
+        /// </summary>
+        /// <param name="data">The data for this Node</param>
+        internal Node(T data) => this.data = data;
     }
 
+    /// <summary>
+    /// A Binary Tree that stores its data in a binary way
+    /// </summary>
+    /// <typeparam name="T">The type of data to store</typeparam>
     public sealed class BinaryTree<T> : IBinaryTree<T> where T : IComparable {
         private Node<T> root;
 
@@ -34,12 +58,12 @@ namespace DaanLib.Datastructures {
         }
 
         private void Insert(T element, Node<T> current) {
-            if (current.element.CompareTo(element) < 0) {
+            if (current.data.CompareTo(element) < 0) {
                 if (current.left == null)
                     current.left = new Node<T>(element);
                 else
                     Insert(element, current.left);
-            } else if (current.element.CompareTo(element) > 0) {
+            } else if (current.data.CompareTo(element) > 0) {
                 if (current.right == null)
                     current.right = new Node<T>(element);
                 else
@@ -53,7 +77,7 @@ namespace DaanLib.Datastructures {
             if (current == null)
                 return default(T);
             else
-                return current.left == null ? current.element : GetMin(current.left);
+                return current.left == null ? current.data : GetMin(current.left);
         }
 
         public T GetMax() => GetMax(root);
@@ -62,7 +86,7 @@ namespace DaanLib.Datastructures {
             if (current == null)
                 return default(T);
             else
-                return current.right == null ? current.element : GetMax(current.right);
+                return current.right == null ? current.data : GetMax(current.right);
         }
 
         public void RemoveMin() => RemoveMin(root, null);
@@ -70,15 +94,14 @@ namespace DaanLib.Datastructures {
         private void RemoveMin(Node<T> current, Node<T> previous) {
             if (current == null)
                 return;
-            else {
-                if (current.left == null) {
-                    if (current.right != null)
-                        previous.left = current.right;
-                    else
-                        previous.left = null;
-                } else
-                    RemoveMin(current.left, current);
-            }
+
+            if (current.left != null)
+                RemoveMin(current.left, current);
+
+            if (current.right == null)
+                previous.left = null;
+
+            previous.left = current.right;
         }
 
         public void RemoveMax() => RemoveMax(root, null);
@@ -115,11 +138,11 @@ namespace DaanLib.Datastructures {
         private void Remove(T item, Node<T> current, Node<T> previous) {
             if (current == null)
                 return;
-            else if (current.element.Equals(item)) {
+            else if (current.data.Equals(item)) {
                 throw new NotImplementedException();
-            } else if (current.element.CompareTo(item) < 0) {
+            } else if (current.data.CompareTo(item) < 0) {
                 Remove(item, current.left, current);
-            } else if (current.element.CompareTo(item) > 0) {
+            } else if (current.data.CompareTo(item) > 0) {
                 Remove(item, current.right, current);
             }
         }
@@ -129,11 +152,11 @@ namespace DaanLib.Datastructures {
         private bool Contains(T item, Node<T> current) {
             if (current == null)
                 return false;
-            else if (current.element.Equals(item))
+            else if (current.data.Equals(item))
                 return true;
-            else if (current.element.CompareTo(item) < 0)
+            else if (current.data.CompareTo(item) < 0)
                 return Contains(item, current.left);
-            else if (current.element.CompareTo(item) > 0)
+            else if (current.data.CompareTo(item) > 0)
                 return Contains(item, current.right);
 
             return false;
@@ -145,7 +168,7 @@ namespace DaanLib.Datastructures {
             if (current == null)
                 return "NULL";
             else
-                return $"[ {ToString(current.left)} {current.element.ToString()} {ToString(current.right)} ]";
+                return $"[ {ToString(current.left)} {current.data.ToString()} {ToString(current.right)} ]";
         }
     }
 }
