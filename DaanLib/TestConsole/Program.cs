@@ -13,7 +13,7 @@ namespace TestConsole {
         private static void Main(string[] args) {
             DaanLib.Datastructures.LinkedList<int> list = new DaanLib.Datastructures.LinkedList<int>();
 
-            Vector2D v = new Vector2D(5, 10);
+            DaanLib.Maths.Vector2D v = new DaanLib.Maths.Vector2D(5, 10);
 
             Matrix m = new Matrix(v);
 
