@@ -40,7 +40,7 @@ namespace DaanLib.Menus {
         /// <summary>
         /// The parent panel of the menu
         /// </summary>
-        protected internal Panel panel;
+        protected internal Control control;
         /// <summary>
         /// The current tab
         /// </summary>
@@ -116,16 +116,16 @@ namespace DaanLib.Menus {
         /// <summary>
         /// Instantiates a new menu
         /// </summary>
-        /// <param name="panel">The parent panel of this menu</param>
+        /// <param name="control">The parent panel of this menu</param>
         /// <param name="tabSize">The size of a tab</param>
-        protected internal AMenu(Panel panel, SizeF tabSize) {
+        protected internal AMenu(Control control, SizeF tabSize) {
             tabList = new List<ATab<T>>();
             this.tabSize = tabSize;
-            this.panel = panel;
+            this.control = control;
 
             // Subscribe to paint and mouse up event
-            panel.Paint += OnDraw;
-            panel.MouseUp += OnClick;
+            control.Paint += OnDraw;
+            control.MouseUp += OnClick;
         }
 
         /// <summary>
@@ -137,17 +137,36 @@ namespace DaanLib.Menus {
         protected internal AMenu(Panel panel, SizeF tabSize, Type tabType) : this(panel, tabSize) => _tabType = tabType;
 
         /// <summary>
+        /// Adds a tab to the list
+        /// </summary>
+        /// <param name="tab">The tab to add</param>
+        public virtual void CreateTab(ATab<T> tab) {
+            if (string.IsNullOrEmpty(tab.tabName) || tab.data == null)
+                return;
+
+            tabList.Add(tab);
+
+            control.Invalidate();
+        }
+
+        /// <summary>
         /// Creates a new tab
         /// </summary>
         /// <param name="tabName">The name of the tab</param>
         /// <param name="data">The data for this tab</param>
+        /// <exception cref="NullReferenceException">Throws an null reference exception if the tab type has not yet been set</exception>
         public virtual void CreateTab(string tabName, T data) {
             // If the type of tab is null, we can't add it
             if (_tabType == null)
                 throw new NullReferenceException("Tab type has not been set");
 
             // Create the new tab and add it to the list
-            tabList.Add((ATab<T>)Activator.CreateInstance(_tabType, new object[2] { tabName, data }));
+            ATab<T> tab = (ATab<T>)Activator.CreateInstance(_tabType);
+            tab.SetInformation(tabName, data);
+            tabList.Add(tab);
+            
+            // Redraw the panel
+            control.Invalidate();
         }
 
         /// <summary>
@@ -157,27 +176,27 @@ namespace DaanLib.Menus {
         protected internal virtual void Draw(Graphics g) {
             // Draw a border around the menu
             using (Pen pen = new Pen(_borderColor ?? defaultBorderColor, _borderWidth))
-                g.DrawRectangle(pen, panel.DisplayRectangle);
+                g.DrawRectangle(pen, control.DisplayRectangle);
         }
 
         /// <summary>
         /// Sets the type of mouse click used for the click event
         /// </summary>
         /// <param name="mode">The type of click used to activate the tab change event</param>
-        protected internal virtual void SetMouseMode(MouseModes mode) {
+        public virtual void SetMouseMode(MouseModes mode) {
             // Unsubscribe from the mouse mode we are currently subscribed to
             switch (currentMouseMode) {
                 case MouseModes.mouseUp:
-                    panel.MouseUp -= OnClick;
+                    control.MouseUp -= OnClick;
                     break;
                 case MouseModes.mouseClick:
-                    panel.MouseClick -= OnClick;
+                    control.MouseClick -= OnClick;
                     break;
                 case MouseModes.mouseDown:
-                    panel.MouseDown -= OnClick;
+                    control.MouseDown -= OnClick;
                     break;
-                case MouseModes.mouseDubbleClick:
-                    panel.MouseDoubleClick -= OnClick;
+                case MouseModes.mouseDoubleClick:
+                    control.MouseDoubleClick -= OnClick;
                     break;
             }
 
@@ -187,16 +206,16 @@ namespace DaanLib.Menus {
             // Subscribe to the mouse mode we want to swap to
             switch (currentMouseMode) {
                 case MouseModes.mouseUp:
-                    panel.MouseUp += OnClick;
+                    control.MouseUp += OnClick;
                     break;
                 case MouseModes.mouseClick:
-                    panel.MouseClick += OnClick;
+                    control.MouseClick += OnClick;
                     break;
                 case MouseModes.mouseDown:
-                    panel.MouseDown += OnClick;
+                    control.MouseDown += OnClick;
                     break;
-                case MouseModes.mouseDubbleClick:
-                    panel.MouseDoubleClick += OnClick;
+                case MouseModes.mouseDoubleClick:
+                    control.MouseDoubleClick += OnClick;
                     break;
             }
         }
@@ -207,20 +226,33 @@ namespace DaanLib.Menus {
         /// <param name="location">The location of the click</param>
         protected internal abstract void Click(Point location);
 
+        /// <summary>
+        /// Changes the tab to a specific index
+        /// </summary>
+        /// <param name="index"></param>
         public virtual void ChangeTab(int index) {
+            // Make sure the index is within bounds and not the current index
             if (index < 0 || index >= tabList.Count || index == current)
                 return;
 
+            // If the current index is not -1, deselect the current tab
             if (current != -1)
                 tabList[current].Deselect();
 
+            // Update the current idnex
             current = index;
 
+            // Select the new tab
             T data = tabList[current].Select();
 
+            // Create the arguments
             TabChangedEventArgs<T> args = new TabChangedEventArgs<T>(data, index);
 
+            // Invoke the on tab change event
             onTabChanged(args);
+
+            // Redraw the panel
+            control.Invalidate();
         }
 
         /// <summary>
@@ -277,7 +309,7 @@ namespace DaanLib.Menus {
         /// <summary>
         /// Reacts when the user double clicks
         /// </summary>
-        mouseDubbleClick
+        mouseDoubleClick
     }
 
     /// <summary>

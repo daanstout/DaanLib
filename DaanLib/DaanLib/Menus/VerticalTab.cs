@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace DaanLib.Menus {
     public class VerticalTab<T> : ATab<T> {
+        public VerticalTab() : base() { }
+
         public VerticalTab(string tabName, T data) : base(tabName, data) { }
 
         protected internal override void Draw(Graphics g, SizeF tabSize, PointF location, Font textFont, Color textColor, Color tabColor, Color borderColor, int borderWidth) {

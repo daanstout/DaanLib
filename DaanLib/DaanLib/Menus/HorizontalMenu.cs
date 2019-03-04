@@ -13,11 +13,11 @@ namespace DaanLib.Menus {
     /// <typeparam name="T">The type of data stored in the tabs</typeparam>
     public class HorizontalMenu<T> : AMenu<T> {
         /// <summary>
-        /// Instantiates a new menu
+        /// Instantiates a new menu with the horizontal tab as the default tab type
         /// </summary>
         /// <param name="panel">The parent panel of the menu</param>
         /// <param name="tabSize">The size of a tab</param>
-        public HorizontalMenu(Panel panel, SizeF tabSize) : base(panel, tabSize) { }
+        public HorizontalMenu(Panel panel, SizeF tabSize) : base(panel, tabSize) => _tabType = typeof(HorizontalTab<T>);
         /// <summary>
         /// Instantiates a new menu
         /// </summary>
