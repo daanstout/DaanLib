@@ -106,7 +106,7 @@ namespace DaanLib.Menus {
         public virtual Type tabType {
             set {
                 // If the type is not of ATab, return.
-                if (!(value is ATab<T>))
+                if(!typeof(ATab<T>).IsAssignableFrom(value))
                     return;
 
                 _tabType = value;
@@ -131,10 +131,10 @@ namespace DaanLib.Menus {
         /// <summary>
         /// Instantiates a new menu
         /// </summary>
-        /// <param name="panel">The parent panel of this menu</param>
+        /// <param name="control">The parent panel of this menu</param>
         /// <param name="tabSize">The size of a tab</param>
         /// <param name="tabType">The type of tab used by this menu</param>
-        protected internal AMenu(Panel panel, SizeF tabSize, Type tabType) : this(panel, tabSize) => _tabType = tabType;
+        protected internal AMenu(Control control, SizeF tabSize, Type tabType) : this(control, tabSize) => _tabType = tabType;
 
         /// <summary>
         /// Adds a tab to the list

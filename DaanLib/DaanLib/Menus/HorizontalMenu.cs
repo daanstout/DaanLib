@@ -15,16 +15,17 @@ namespace DaanLib.Menus {
         /// <summary>
         /// Instantiates a new menu with the horizontal tab as the default tab type
         /// </summary>
-        /// <param name="panel">The parent panel of the menu</param>
+        /// <param name="control">The parent panel of the menu</param>
         /// <param name="tabSize">The size of a tab</param>
-        public HorizontalMenu(Panel panel, SizeF tabSize) : base(panel, tabSize) => _tabType = typeof(HorizontalTab<T>);
+        public HorizontalMenu(Control control, SizeF tabSize) : base(control, tabSize) => _tabType = typeof(HorizontalTab<T>);
+
         /// <summary>
         /// Instantiates a new menu
         /// </summary>
-        /// <param name="panel">The parent panel of the menu</param>
+        /// <param name="control">The parent panel of the menu</param>
         /// <param name="tabSize">The size of a tab</param>
         /// <param name="tabType">The type of tab used by the menu</param>
-        public HorizontalMenu(Panel panel, SizeF tabSize, Type tabType) : base(panel, tabSize, tabType) { }
+        public HorizontalMenu(Control control, SizeF tabSize, Type tabType) : base(control, tabSize, tabType) { }
 
         /// <summary>
         /// Draws the  menu

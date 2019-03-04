@@ -21,11 +21,13 @@ namespace TestApp {
             menu1 = new HorizontalMenu<string>(panel1, new SizeF(50, 50));
             menu2 = new VerticalMenu<string>(panel2, new SizeF(50, 50));
 
+            menu1.tabType = typeof(testTab<string>);
+
             menu1.tabChanged += onTabChange;
             menu2.tabChanged += onTabChange;
 
             for (int i = 0; i < 5; i++) {
-                menu1.CreateTab(new HorizontalTab<string>("tab" + i, i.ToString()));
+                menu1.CreateTab("tab" + i, i.ToString());
                 menu2.CreateTab(new VerticalTab<string>("tab" + i, i.ToString()));
             }
 
@@ -35,4 +37,6 @@ namespace TestApp {
 
         private void onTabChange(object sender, TabChangedEventArgs<string> e) => Console.WriteLine(e.data);
     }
+
+    public class testTab<T> : HorizontalTab<T> { }
 }

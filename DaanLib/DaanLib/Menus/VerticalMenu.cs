@@ -8,8 +8,8 @@ using System.Windows.Forms;
 
 namespace DaanLib.Menus {
     public class VerticalMenu<T> : AMenu<T> {
-        public VerticalMenu(Panel panel, SizeF tabSize) : base(panel, tabSize) => _tabType = typeof(VerticalTab<T>);
-        public VerticalMenu(Panel panel, SizeF tabSize, Type tabType) : base(panel, tabSize, tabType) { }
+        public VerticalMenu(Control control, SizeF tabSize) : base(control, tabSize) => _tabType = typeof(VerticalTab<T>);
+        public VerticalMenu(Control control, SizeF tabSize, Type tabType) : base(control, tabSize, tabType) { }
 
         protected internal override void Draw(Graphics g) {
             base.Draw(g);
