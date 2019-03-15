@@ -11,7 +11,7 @@ namespace DaanLib.Menus {
     /// A menu used in a panel to display different things
     /// </summary>
     /// <typeparam name="T">The type of object the tabs store</typeparam>
-    public abstract class AMenu<T> {
+    public abstract class AMenu<T> : IEquatable<AMenu<T>> {
         /// <summary>
         /// The default color of the text - Black
         /// </summary>
@@ -288,6 +288,32 @@ namespace DaanLib.Menus {
         /// </summary>
         /// <param name="e">The arguments for the event</param>
         protected internal virtual void onTabChanged(TabChangedEventArgs<T> e) => tabChanged?.Invoke(this, e);
+
+        /// <summary>
+        /// Checks the equality of two menus
+        /// </summary>
+        /// <param name="obj">The other menu</param>
+        /// <returns>True if the list of tabs, the tab size and the control are equal</returns>
+        public override bool Equals(object obj) => Equals(obj as AMenu<T>);
+
+        /// <summary>
+        /// Checks the equality of two menus
+        /// </summary>
+        /// <param name="other">The other menu</param>
+        /// <returns>True if the list of tabs, the tab size and the control are equal</returns>
+        public bool Equals(AMenu<T> other) => other != null && EqualityComparer<List<ATab<T>>>.Default.Equals(tabList, other.tabList) && EqualityComparer<SizeF>.Default.Equals(tabSize, other.tabSize) && EqualityComparer<Control>.Default.Equals(control, other.control);
+
+        /// <summary>
+        /// Gets the hash code of this object
+        /// </summary>
+        /// <returns>The hash code of this object</returns>
+        public override int GetHashCode() {
+            var hashCode = 2134575231;
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<ATab<T>>>.Default.GetHashCode(tabList);
+            hashCode = hashCode * -1521134295 + EqualityComparer<SizeF>.Default.GetHashCode(tabSize);
+            hashCode = hashCode * -1521134295 + EqualityComparer<Control>.Default.GetHashCode(control);
+            return hashCode;
+        }
     }
 
     /// <summary>
