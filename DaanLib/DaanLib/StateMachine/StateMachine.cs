@@ -5,13 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DaanLib.StateMachine {
-    public class StateMachine : IStateMachine, IStateMachine<object> {
+    public struct StateMachine : IStateMachine, IStateMachine<object> {
         private object owner;
         private IState state;
 
-        public StateMachine(object owner) => this.owner = owner;
+        public StateMachine(object owner) : this(owner, null) { }
 
-        public StateMachine(object owner, IState state) : this(owner) => this.state = state;
+        public StateMachine(object owner, IState state) {
+            this.owner = owner;
+            this.state = state;
+        }
 
         public void ChangeState(IState newState) {
             state.Exit(owner);

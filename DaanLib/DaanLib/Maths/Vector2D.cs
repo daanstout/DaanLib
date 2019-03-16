@@ -5,7 +5,7 @@ namespace DaanLib.Maths {
     /// <summary>
     /// A 2D vector with an X and a Y
     /// </summary>
-    public sealed class Vector2D {
+    public struct Vector2D : IEquatable<Vector2D> {
         #region Variables
         /// <summary>
         /// The X value
@@ -41,7 +41,7 @@ namespace DaanLib.Maths {
         /// <summary>
         /// Instantiates a new Vector2D with an empty X and Y
         /// </summary>
-        public Vector2D() => x = y = 0.0f;
+        //public Vector2D() => x = y = 0.0f;
 
         /// <summary>
         /// Instantiates a new Vector2D based on another Vector2D
@@ -59,6 +59,43 @@ namespace DaanLib.Maths {
         public Vector2D(Vector3D vec) {
             x = vec.x;
             y = vec.y;
+        }
+
+        /// <summary>
+        /// Instantiates a new Vector2D based on the string representation of a Vector2D.ToString()
+        /// <para>If this constructor throws an error, that means the string is not a correct string</para>
+        /// </summary>
+        /// <param name="vec">The string representation of a Vector</param>
+        public Vector2D(string vec) {
+            try {
+                string sub = vec.Substring(1, vec.Length - 2);
+                string[] split = sub.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+
+                if (split.Length >= 1)
+                    x = (float)Convert.ToDouble(split[0]);
+                else {
+                    x = y = 0;
+                    return;
+                }
+
+                if (split.Length >= 2)
+                    y = (float)Convert.ToDouble(split[1]);
+                else {
+                    y = 0;
+                    return;
+                }
+            } catch {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Instantiates a new Vector3D based on a float
+        /// </summary>
+        /// <param name="x"></param>
+        public Vector2D(float x) {
+            this.x = x;
+            y = 0;
         }
 
         /// <summary>
@@ -150,8 +187,9 @@ namespace DaanLib.Maths {
         /// </summary>
         public void Normalize() {
             float vectorLength = Length();
-            x /= vectorLength;
-            y /= vectorLength;
+            this /= vectorLength;
+            //x /= vectorLength;
+            //y /= vectorLength;
         }
 
         /// <summary>
@@ -160,6 +198,14 @@ namespace DaanLib.Maths {
         /// <param name="other">The other vector</param>
         /// <returns>returns -1 if other is anti-clockwise of the vector and 1 if clockwise</returns>
         public int Sign(Vector2D other) => y * other.x > x * other.y ? -1 : 1;
+
+        /// <summary>
+        /// Gets the manhattan distance to another Vector2D
+        /// <para>The manhattan distance is the ΔX + ΔY</para>
+        /// </summary>
+        /// <param name="other">The Vector2D to calculate to</param>
+        /// <returns>The distance to the other Vector</returns>
+        public float GetManhattan(Vector2D other) => Math.Abs(x - other.x) + Math.Abs(y - other.y);
 
         /// <summary>
         /// Creates a new vector that is perpandicular of this vector
@@ -172,12 +218,18 @@ namespace DaanLib.Maths {
         /// </summary>
         /// <param name="max">The max value</param>
         public void Truncate(float max) {
-            if (Length() > max) {
-                Normalize();
+            if (Length() <= max)
+                return;
 
-                x *= max;
-                y *= max;
-            }
+            Normalize();
+
+            this *= max;
+            //if (Length() > max) {
+            //    Normalize();
+
+            //    x *= max;
+            //    y *= max;
+            //}
         }
 
         /// <summary>
@@ -211,8 +263,9 @@ namespace DaanLib.Maths {
         public void Reflect(Vector2D norm) {
             Vector2D result = new Vector2D(this);
             result += 2 * Dot(norm) * norm.GetReverse();
-            x = result.x;
-            y = result.y;
+            this = result;
+            //x = result.x;
+            //y = result.y;
         }
 
         /// <summary>
@@ -278,8 +331,10 @@ namespace DaanLib.Maths {
 
             float vector_length = vec.Length();
 
-            vec.x /= vector_length;
-            vec.y /= vector_length;
+            vec /= vector_length;
+
+            //vec.x /= vector_length;
+            //vec.y /= vector_length;
 
             return vec;
         }
@@ -324,18 +379,37 @@ namespace DaanLib.Maths {
         /// <returns>The unsquared length of the vector</returns>
         public static float Vec2DLengthSq(Vector2D v) => v.x * v.x + v.y * v.y;
 
+        ///// <summary>
+        ///// Checks whether the 2 vectors are equal
+        ///// </summary>
+        ///// <param name="obj">The other vector</param>
+        ///// <returns>true if the vectors are equal</returns>
+        //public override bool Equals(object obj) {
+        //    if (obj == null)
+        //        return false;
+        //    else if (obj is Vector2D v)
+        //        return this == v;
+        //    else
+        //        return false;
+        //}
+
+        /// <summary>
+        /// Checks whether the 2 vectors are equal
+        /// </summary>
+        /// <param name="obj">The other object</param>
+        /// <returns>true if the vectors are equal</returns>
+        public override bool Equals(object obj) {
+            return obj is Vector2D && Equals((Vector2D)obj);
+        }
+
         /// <summary>
         /// Checks whether the 2 vectors are equal
         /// </summary>
         /// <param name="obj">The other vector</param>
         /// <returns>true if the vectors are equal</returns>
-        public override bool Equals(object obj) {
-            if (obj == null)
-                return false;
-            else if (obj is Vector2D v)
-                return this == v;
-            else
-                return false;
+        public bool Equals(Vector2D other) {
+            return x == other.x &&
+                   y == other.y;
         }
 
         /// <summary>
