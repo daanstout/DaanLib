@@ -86,7 +86,7 @@ namespace DaanLib.Datastructures {
     /// A Linked List
     /// </summary>
     /// <typeparam name="T">The type stored in the nodes</typeparam>
-    public sealed class LinkedList<T> : ICollection<T>, IEnumerable<T>, IEnumerable, ILinkedList<T> {
+    public sealed class LinkedList<T> : ICollection<T>, IEnumerable<T>, IEnumerable {
         /// <summary>
         /// The header of the list
         /// </summary>

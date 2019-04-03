@@ -39,17 +39,59 @@ namespace DaanLib.Datastructures {
     /// A Binary Tree that stores its data in a binary way
     /// </summary>
     /// <typeparam name="T">The type of data to store</typeparam>
-    public sealed class BinaryTree<T> : IBinaryTree<T> where T : IComparable {
+    public sealed class BinaryTree<T> where T : IComparable {
+        /// <summary>
+        /// The root of the Tree
+        /// </summary>
         private Node<T> root;
 
+        /// <summary>
+        /// The depth of the Tree (The length of the longest fork of the tree)
+        /// </summary>
         public int depth => Depth(root);
 
+        /// <summary>
+        /// The size of the Tree (The number of elements)
+        /// </summary>
         public int size => Size(root);
 
+        /// <summary>
+        /// Instantiates a new Tree
+        /// </summary>
         public BinaryTree() { }
 
+        /// <summary>
+        /// Instantiates a new Tree
+        /// </summary>
+        /// <param name="element">The element to sit at the root</param>
         public BinaryTree(T element) => root = new Node<T>(element);
 
+        /// <summary>
+        /// Instantiates a new Tree
+        /// </summary>
+        /// <param name="elements">A list of elements to add</param>
+        public BinaryTree(T[] elements) {
+            root = new Node<T>(elements[0]);
+
+            for (int i = 1; i < elements.Length; i++)
+                Insert(elements[i]);
+        }
+
+        /// <summary>
+        /// Instantiates a new Tree
+        /// </summary>
+        /// <param name="elements">A list of elements to add</param>
+        public BinaryTree(List<T> elements) {
+            root = new Node<T>(elements[0]);
+
+            for (int i = 1; i < elements.Count; i++)
+                Insert(elements[i]);
+        }
+
+        /// <summary>
+        /// Add an element to the Tree
+        /// </summary>
+        /// <param name="element">The element to add</param>
         public void Insert(T element) {
             if (root == null)
                 root = new Node<T>(element);
@@ -57,6 +99,11 @@ namespace DaanLib.Datastructures {
                 Insert(element, root);
         }
 
+        /// <summary>
+        /// Add an element to the Tree
+        /// </summary>
+        /// <param name="element">The element to add</param>
+        /// <param name="current">The current node</param>
         private void Insert(T element, Node<T> current) {
             if (current.data.CompareTo(element) < 0) {
                 if (current.left == null)
@@ -71,8 +118,17 @@ namespace DaanLib.Datastructures {
             }
         }
 
+        /// <summary>
+        /// Gets the lowest element
+        /// </summary>
+        /// <returns>The lowest element</returns>
         public T GetMin() => GetMin(root);
 
+        /// <summary>
+        /// Gets the lowest element
+        /// </summary>
+        /// <param name="current">The current node</param>
+        /// <returns>The lowest element</returns>
         private T GetMin(Node<T> current) {
             if (current == null)
                 return default(T);
@@ -80,8 +136,17 @@ namespace DaanLib.Datastructures {
                 return current.left == null ? current.data : GetMin(current.left);
         }
 
+        /// <summary>
+        /// Gets the highest element
+        /// </summary>
+        /// <returns>The highest element</returns>
         public T GetMax() => GetMax(root);
 
+        /// <summary>
+        /// Gets the highest element
+        /// </summary>
+        /// <param name="current">The current node</param>
+        /// <returns>The highest element</returns>
         private T GetMax(Node<T> current) {
             if (current == null)
                 return default(T);
@@ -89,6 +154,9 @@ namespace DaanLib.Datastructures {
                 return current.right == null ? current.data : GetMax(current.right);
         }
 
+        /// <summary>
+        /// Removes the lowest node
+        /// </summary>
         public void RemoveMin() => RemoveMin(root, null);
 
         private void RemoveMin(Node<T> current, Node<T> previous) {

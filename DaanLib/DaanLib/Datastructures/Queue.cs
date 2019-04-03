@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DaanLib.Datastructures {
-    public sealed class Queue<T> : IQueue<T> {
+    public sealed class Queue<T> {
         private T[] queue;
         private int front;
         private int back;

@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DaanLib.StateMachine {
-    public interface IState : IState<object> {
-    }
+    /// <summary>
+    /// A state for objects
+    /// </summary>
+    public interface IState : IState<object> { }
 }

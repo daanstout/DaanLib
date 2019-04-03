@@ -9,7 +9,7 @@ namespace DaanLib.Datastructures {
     /// A Stack that follows the FILO rules
     /// </summary>
     /// <typeparam name="T">The Type to store in the stack</typeparam>
-    public sealed class Stack<T> : IStack<T> {
+    public sealed class Stack<T> {
         /// <summary>
         /// The stack
         /// </summary>
