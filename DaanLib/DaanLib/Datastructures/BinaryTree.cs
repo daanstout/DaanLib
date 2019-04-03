@@ -155,7 +155,7 @@ namespace DaanLib.Datastructures {
         }
 
         /// <summary>
-        /// Removes the lowest node
+        /// Removes the smallest node
         /// </summary>
         public void RemoveMin() => RemoveMin(root, null);
 
@@ -172,6 +172,9 @@ namespace DaanLib.Datastructures {
             previous.left = current.right;
         }
 
+        /// <summmary>
+        /// Removes the largest node
+        /// </summmary>
         public void RemoveMax() => RemoveMax(root, null);
 
         private void RemoveMax(Node<T> current, Node<T> previous) {
@@ -201,6 +204,10 @@ namespace DaanLib.Datastructures {
 
         private int Size(Node<T> current) => current == null ? 0 : Size(current.left) + Size(current.right) + 1;
 
+        /// <summary>
+        /// Removes a certain Node
+        /// <para>Not Implemented Yet!</para>
+        /// </summary>
         public void Remove(T item) => Remove(item, root, null);
 
         private void Remove(T item, Node<T> current, Node<T> previous) {
@@ -215,6 +222,9 @@ namespace DaanLib.Datastructures {
             }
         }
 
+        /// <summary>
+        /// Indicates whether the tree contains a Node
+        /// </summary>
         public bool Contains(T item) => Contains(item, root);
 
         private bool Contains(T item, Node<T> current) {
@@ -230,6 +240,9 @@ namespace DaanLib.Datastructures {
             return false;
         }
 
+        /// <summary>
+        /// Returns a string representation of the tree
+        /// </summary>
         public override string ToString() => root == null ? "" : ToString(root);
 
         private string ToString(Node<T> current) {

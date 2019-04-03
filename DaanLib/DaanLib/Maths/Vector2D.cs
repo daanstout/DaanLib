@@ -39,11 +39,6 @@ namespace DaanLib.Maths {
         #endregion
         #region Constructors
         /// <summary>
-        /// Instantiates a new Vector2D with an empty X and Y
-        /// </summary>
-        //public Vector2D() => x = y = 0.0f;
-
-        /// <summary>
         /// Instantiates a new Vector2D based on another Vector2D
         /// </summary>
         /// <param name="vec">The vector to copy</param>
@@ -102,7 +97,7 @@ namespace DaanLib.Maths {
         /// Instantiates a new Vector2D based on a X and a Y
         /// </summary>
         /// <param name="x">The X value</param>
-        /// <param name="x">The Y Value</param>
+        /// <param name="y">The Y Value</param>
         public Vector2D(float x, float y) {
             this.x = x;
             this.y = y;
@@ -405,7 +400,7 @@ namespace DaanLib.Maths {
         /// <summary>
         /// Checks whether the 2 vectors are equal
         /// </summary>
-        /// <param name="obj">The other vector</param>
+        /// <param name="other">The other vector</param>
         /// <returns>true if the vectors are equal</returns>
         public bool Equals(Vector2D other) {
             return x == other.x &&
