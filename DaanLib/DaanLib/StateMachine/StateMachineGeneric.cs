@@ -33,8 +33,9 @@ namespace DaanLib.StateMachine {
         public StateMachine(T owner, IState<T> state) {
             this.owner = owner;
             this.state = state;
-            if (state != null)
-                this.state.Enter(this.owner);
+            this.state?.Enter(this.owner);
+            // if (state != null)
+            //     this.state.Enter(this.owner);
         }
 
         /// <summary>
