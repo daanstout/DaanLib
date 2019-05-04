@@ -69,6 +69,7 @@
     <Compile Include="StateMachine\IStateMachineGeneric.cs" />
     <Compile Include="StateMachine\StateMachine.cs" />
     <Compile Include="StateMachine\StateMachineGeneric.cs" />
+    <Compile Include="WinFormHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
