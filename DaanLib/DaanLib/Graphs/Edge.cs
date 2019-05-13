@@ -8,7 +8,7 @@ namespace DaanLib.Graphs {
     /// <summary>
     /// A vertex in a Graph System
     /// </summary>
-    public struct Edge {
+    public class Edge {
         /// <summary>
         /// The destination of this Edge
         /// </summary>

@@ -8,7 +8,7 @@ namespace DaanLib {
     /// <summary>
     /// Some ease of use functions for WinForms
     /// </summary>
-    public static class WinFormHelper {
+    public static class NativeMethods {
         /// <summary>
         /// 
         /// </summary>
@@ -26,14 +26,17 @@ namespace DaanLib {
         /// <param name="wParam"></param>
         /// <param name="lParam"></param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Portability", "CA1901:PInvokeDeclarationsShouldBePortable", MessageId = "return")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Portability", "CA1901:PInvokeDeclarationsShouldBePortable", MessageId = "3")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Portability", "CA1901:PInvokeDeclarationsShouldBePortable", MessageId = "2")]
         [System.Runtime.InteropServices.DllImportAttribute("user32.dll")]
-        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
         /// <summary>
         /// Releases the capture of the window
         /// </summary>
         /// <returns></returns>
         [System.Runtime.InteropServices.DllImportAttribute("user32.dll")]
-        public static extern bool ReleaseCapture();
+        static extern bool ReleaseCapture();
 
         /// <summary>
         /// Allows the user to drag the window

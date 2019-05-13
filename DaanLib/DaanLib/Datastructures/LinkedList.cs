@@ -105,7 +105,7 @@ namespace DaanLib.Datastructures {
             get {
                 //  Make sure the index is not less than zero and we even have a list
                 if (index < 0 || header.next == tail) // Throw an exception if either is the case
-                    throw new IndexOutOfRangeException();
+                    throw new ArgumentException();
 
                 // The current Node we are looking at is the first node. We know we have a node because of our previous if statement
                 LinkedListNode<T> current = header.next;
@@ -121,7 +121,7 @@ namespace DaanLib.Datastructures {
                 if (index == 0)
                     return current.data;
                 else // If not, we ran out of List to iterate through
-                    throw new IndexOutOfRangeException();
+                    throw new ArgumentException();
             }
             set {
                 //  Make sure the index is not less than zero and we even have a list
@@ -171,9 +171,9 @@ namespace DaanLib.Datastructures {
         /// </summary>
         public LinkedList() {
             // Create the header with a default value for T
-            header = new LinkedListNode<T>(default(T));
+            header = new LinkedListNode<T>(default);
             // Create the tail with a default value for T
-            tail = new LinkedListNode<T>(default(T));
+            tail = new LinkedListNode<T>(default);
             // Set the next Node of the header to the tail
             header.next = tail;
             // Set the next Node of the tail to the header
@@ -181,8 +181,8 @@ namespace DaanLib.Datastructures {
         }
 
         public LinkedList(IEnumerable<T> collection) {
-            header = new LinkedListNode<T>(default(T));
-            tail = new LinkedListNode<T>(default(T));
+            header = new LinkedListNode<T>(default);
+            tail = new LinkedListNode<T>(default);
             header.next = tail;
             tail.previous = header;
             LinkedListNode<T> current = header;
@@ -380,14 +380,15 @@ namespace DaanLib.Datastructures {
 
             LinkedListNode<T> current = header.next;
             for (int i = startIndex; i < startIndex + count; i++)
-                array[i] = this[arrayIndex + i];
+                array[i] = current.data;
         }
     }
 
-    public class LinkedListEnumerator<T> : IEnumerator<T> {
+    public class LinkedListEnumerator<T> : IEnumerator<T>, IDisposable {
         private LinkedList<T> _collection;
         private int curIndex;
         private LinkedListNode<T> curNode;
+        private bool disposed = false;
 
         public LinkedListEnumerator(LinkedList<T> collection) {
             _collection = collection;
@@ -409,7 +410,21 @@ namespace DaanLib.Datastructures {
             curNode = _collection.header;
         }
 
-        void IDisposable.Dispose() { }
+        public void Dispose() {
+            Dispose(true);
+
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing) {
+            if (!disposed) {
+                if (disposing) {
+                    
+                }
+
+                disposed = true;
+            }
+        }
 
         object IEnumerator.Current => Current;
 

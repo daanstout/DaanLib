@@ -131,7 +131,7 @@ namespace DaanLib.Datastructures {
         /// <returns>The lowest element</returns>
         private T GetMin(Node<T> current) {
             if (current == null)
-                return default(T);
+                return default;
             else
                 return current.left == null ? current.data : GetMin(current.left);
         }
@@ -149,7 +149,7 @@ namespace DaanLib.Datastructures {
         /// <returns>The highest element</returns>
         private T GetMax(Node<T> current) {
             if (current == null)
-                return default(T);
+                return default;
             else
                 return current.right == null ? current.data : GetMax(current.right);
         }
@@ -210,7 +210,9 @@ namespace DaanLib.Datastructures {
         /// </summary>
         public void Remove(T item) => Remove(item, root, null);
 
+#pragma warning disable IDE0060 // Remove unused parameter
         private void Remove(T item, Node<T> current, Node<T> previous) {
+#pragma warning restore IDE0060 // Remove unused parameter
             if (current == null)
                 return;
             else if (current.data.Equals(item)) {

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,57 +6,83 @@ using System.Threading.Tasks;
 
 namespace DaanLib.Graphs {
     /// <summary>
-    /// A class that is used to manage Verteces
+    /// A graph that stores Verteces
     /// </summary>
-    public static class Graph {
-        private static Dictionary<int, Vertex> verteces = new Dictionary<int, Vertex>();
+    /// <typeparam name="T"></typeparam>
+    public class Graph<T> {
+        /// <summary>
+        /// The maximum float value
+        /// </summary>
+        public static readonly float INFINITY = float.MaxValue;
 
         /// <summary>
-        /// Adds an Edge from a vertex to another vertex
+        /// A dictionary of all the verteces based on a certain class type
         /// </summary>
-        public static bool AddEdgeTo(Vertex from, Vertex to) => AddEdgeTo(from, to, 1);
+        protected Dictionary<T, Vertex> verteces = new Dictionary<T, Vertex>();
 
-        public static bool AddEdgeTo(Vertex from, Vertex to, float cost) {
+        /// <summary>
+        /// A list of all verteces in the Graph
+        /// </summary>
+        public Vertex[] GetvertexArray() => (Vertex[])verteces.Values.ToArray();
+
+        /// <summary>
+        /// Instantiates a new Graph
+        /// </summary>
+        public Graph() { }
+
+        /// <summary>
+        /// Registeres a new Vertex from a Key
+        /// </summary>
+        /// <param name="key">The key of the vertex</param>
+        /// <exception cref="ArgumentNullException">Throws an Argument Null Exception if the key given is null</exception>
+        /// <returns>True if all goes well, false if the key already has a vertex</returns>
+        public virtual bool RegisterVertex(T key) {
+            if (key == null)
+                throw new ArgumentNullException(string.Format("Key of type {0} was null", typeof(T)));
+
+            if (verteces.ContainsKey(key))
+                return false;
+
+            verteces.Add(key, new Vertex(key.ToString()));
+
+            return true;
+        }
+
+        /// <summary>
+        /// Replaces a vertex for a Key
+        /// </summary>
+        /// <param name="key">The key that should get a new Vertex</param>
+        /// <exception cref="ArgumentNullException">Throws an Argument Null Exception if the key given is null</exception>
+        /// <returns>True if all goes well, false if the key does not have a vertex</returns>
+        public virtual bool ReplaceVertex(T key) {
+            if (key == null)
+                throw new ArgumentNullException(string.Format("Key of type {0} was null", typeof(T)));
+
+            if (!verteces.ContainsKey(key))
+                return false;
+
+            verteces[key] = new Vertex(key.ToString());
+
+            return true;
+        }
+
+        /// <summary>
+        /// Registers an Edge between two Verteces
+        /// </summary>
+        /// <param name="from">The starting Vertex</param>
+        /// <param name="to">The ending Vertex</param>
+        /// <exception cref="ArgumentNullException">Throws an Argument Null Exception if either keys is null</exception>
+        /// <returns>True if all goes well, false if either keys doesn't have a Vertex</returns>
+        public bool RegisterEdge(T from, T to) {
             if (from == null || to == null)
+                throw new ArgumentNullException(string.Format("Key of type {0} was null", typeof(T)));
+
+            if (!verteces.ContainsKey(from) || !verteces.ContainsKey(to))
                 return false;
 
-            return from.AddEdge(new Edge(to, cost));
+            verteces[from].AddEdge(new Edge(verteces[to]));
+
+            return true;
         }
-
-        public static bool AddEdgeTo(int from, int to) {
-            try {
-                return AddEdgeTo(from, to, 1);
-            } catch {
-                throw;
-            }
-        }
-
-        public static bool AddEdgeTo(int from, int to, float cost) {
-            try {
-                verteces.TryGetValue(from, out Vertex a);
-                verteces.TryGetValue(to, out Vertex b);
-
-                return AddEdgeTo(from, to, cost);
-            } catch {
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Adds an Edge between two verteces
-        /// </summary>
-        public static bool AddEdgeBetween(Vertex a, Vertex b) {
-            // If either Verteces is null, return false
-            if (a == null || b == null)
-                return false;
-
-            // Add an edge to Vertex a, if we can't, return false, if we can, continue
-            if (!a.AddEdge(new Edge(b, 1)))
-                return false;
-
-            // Add an edge to vertex b and return that value as our own
-            return b.AddEdge(new Edge(a, 1));
-        }
-
     }
 }

@@ -34,7 +34,7 @@ namespace DaanLib.Datastructures {
 
         public T Dequeue() {
             if (queueSize == 0)
-                return default(T);
+                return default;
 
             T item = queue[front];
             queueSize--;

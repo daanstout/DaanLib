@@ -36,6 +36,14 @@ namespace DaanLib.Maths {
         /// A zero-based Vector2D
         /// </summary>
         public static Vector2D Zero => new Vector2D(0, 0);
+        /// <summary>
+        /// A one-based Vector2D
+        /// </summary>
+        public static Vector2D One => new Vector2D(1, 1);
+        /// <summary>
+        /// A negative one-based Vector2D
+        /// </summary>
+        public static Vector2D NegOne => new Vector2D(-1, -1);
         #endregion
         #region Constructors
         /// <summary>
@@ -310,7 +318,7 @@ namespace DaanLib.Maths {
         /// <param name="posSecond">Position of the second vector</param>
         /// <param name="fov">FOV of the first vector</param>
         /// <returns></returns>
-        public bool isSecondInFOVOfFirst(Vector2D posFirst, Vector2D facingFirst, Vector2D posSecond, float fov) {
+        public static bool isSecondInFOVOfFirst(Vector2D posFirst, Vector2D facingFirst, Vector2D posSecond, float fov) {
             Vector2D toTarget = Vec2DNormalize(posSecond - posFirst);
 
             return facingFirst.Dot(toTarget) >= Math.Cos(fov / 2);
@@ -393,9 +401,7 @@ namespace DaanLib.Maths {
         /// </summary>
         /// <param name="obj">The other object</param>
         /// <returns>true if the vectors are equal</returns>
-        public override bool Equals(object obj) {
-            return obj is Vector2D && Equals((Vector2D)obj);
-        }
+        public override bool Equals(object obj) => obj is Vector2D && Equals((Vector2D)obj);
 
         /// <summary>
         /// Checks whether the 2 vectors are equal

@@ -353,7 +353,7 @@ namespace DaanLib.Maths {
         /// <param name="posSecond">The position of the second Vector</param>
         /// <param name="fov">The field of view of the First Vector</param>
         /// <returns>True if the second Vector is in field of view of the first Vector</returns>
-        public bool IsSecondInFOVOfFirst(Vector3D posFirst, Vector3D facingFirst, Vector3D posSecond, float fov) {
+        public static bool IsSecondInFOVOfFirst(Vector3D posFirst, Vector3D facingFirst, Vector3D posSecond, float fov) {
             Vector3D toTarget = posSecond - posFirst;
             toTarget.Normalize();
 
@@ -365,9 +365,7 @@ namespace DaanLib.Maths {
         /// </summary>
         /// <param name="obj">The other object</param>
         /// <returns>True if the Vectors are equal</returns>
-        public override bool Equals(object obj) {
-            return obj is Vector3D && Equals((Vector3D)obj);
-        }
+        public override bool Equals(object obj) => obj is Vector3D && Equals((Vector3D)obj);
 
         /// <summary>
         /// Checks the equality of this Vector to another Vector

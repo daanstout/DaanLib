@@ -50,7 +50,7 @@ namespace DaanLib.Datastructures {
         /// <returns>The item at the top of the stack</returns>
         public T Pop() {
             if (stackSize == 0)
-                return default(T);
+                return default;
 
             top = stackSize -= 1;
             return stack[top + 1];

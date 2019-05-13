@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace TestConsole {
     internal class Program {
-        private static void Main(string[] args) {
+        private static void Main() {
             //DaanLib.Datastructures.LinkedList<int> list = new DaanLib.Datastructures.LinkedList<int>();
 
             //DaanLib.Maths.Vector2D v = new DaanLib.Maths.Vector2D(5, 10);
