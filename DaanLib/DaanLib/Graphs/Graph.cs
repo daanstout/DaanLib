@@ -8,8 +8,8 @@ namespace DaanLib.Graphs {
     /// <summary>
     /// A graph that stores Verteces
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class Graph<T> {
+    /// <typeparam name="TKey">The type of the Key</typeparam>
+    public class Graph<TKey> {
         /// <summary>
         /// The maximum float value
         /// </summary>
@@ -18,7 +18,7 @@ namespace DaanLib.Graphs {
         /// <summary>
         /// A dictionary of all the verteces based on a certain class type
         /// </summary>
-        protected Dictionary<T, Vertex> verteces = new Dictionary<T, Vertex>();
+        protected Dictionary<TKey, Vertex> verteces = new Dictionary<TKey, Vertex>();
 
         /// <summary>
         /// A list of all verteces in the Graph
@@ -36,9 +36,9 @@ namespace DaanLib.Graphs {
         /// <param name="key">The key of the vertex</param>
         /// <exception cref="ArgumentNullException">Throws an Argument Null Exception if the key given is null</exception>
         /// <returns>True if all goes well, false if the key already has a vertex</returns>
-        public virtual bool RegisterVertex(T key) {
+        public virtual bool RegisterVertex(TKey key) {
             if (key == null)
-                throw new ArgumentNullException(string.Format("Key of type {0} was null", typeof(T)));
+                throw new ArgumentNullException(string.Format("Key of type {0} was null", typeof(TKey)));
 
             if (verteces.ContainsKey(key))
                 return false;
@@ -54,9 +54,9 @@ namespace DaanLib.Graphs {
         /// <param name="key">The key that should get a new Vertex</param>
         /// <exception cref="ArgumentNullException">Throws an Argument Null Exception if the key given is null</exception>
         /// <returns>True if all goes well, false if the key does not have a vertex</returns>
-        public virtual bool ReplaceVertex(T key) {
+        public virtual bool ReplaceVertex(TKey key) {
             if (key == null)
-                throw new ArgumentNullException(string.Format("Key of type {0} was null", typeof(T)));
+                throw new ArgumentNullException(string.Format("Key of type {0} was null", typeof(TKey)));
 
             if (!verteces.ContainsKey(key))
                 return false;
@@ -73,9 +73,9 @@ namespace DaanLib.Graphs {
         /// <param name="to">The ending Vertex</param>
         /// <exception cref="ArgumentNullException">Throws an Argument Null Exception if either keys is null</exception>
         /// <returns>True if all goes well, false if either keys doesn't have a Vertex</returns>
-        public bool RegisterEdge(T from, T to) {
+        public bool RegisterEdge(TKey from, TKey to) {
             if (from == null || to == null)
-                throw new ArgumentNullException(string.Format("Key of type {0} was null", typeof(T)));
+                throw new ArgumentNullException(string.Format("Key of type {0} was null", typeof(TKey)));
 
             if (!verteces.ContainsKey(from) || !verteces.ContainsKey(to))
                 return false;
