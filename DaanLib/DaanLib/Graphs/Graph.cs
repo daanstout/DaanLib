@@ -21,14 +21,14 @@ namespace DaanLib.Graphs {
         protected Dictionary<TKey, Vertex> verteces = new Dictionary<TKey, Vertex>();
 
         /// <summary>
-        /// A list of all verteces in the Graph
-        /// </summary>
-        public Vertex[] GetvertexArray() => (Vertex[])verteces.Values.ToArray();
-
-        /// <summary>
         /// Instantiates a new Graph
         /// </summary>
         public Graph() { }
+
+        /// <summary>
+        /// A list of all verteces in the Graph
+        /// </summary>
+        public Vertex[] GetVertexArray() => verteces.Values.ToArray();
 
         /// <summary>
         /// Registeres a new Vertex from a Key
@@ -67,13 +67,58 @@ namespace DaanLib.Graphs {
         }
 
         /// <summary>
+        /// Gets the vertex based on a key
+        /// </summary>
+        /// <param name="key">The key for the vertex</param>
+        /// <exception cref="ArgumentNullException">Throws an Argument Null Exception if the key given is null</exception>
+        /// <returns>The vertex of the key</returns>
+        public virtual Vertex GetVertex(TKey key) {
+            if(key == null)
+                throw new ArgumentNullException(string.Format("Key of type {0} was null", typeof(TKey)));
+
+            if (!verteces.ContainsKey(key))
+                return null;
+
+            return verteces[key];
+        }
+
+        /// <summary>
+        /// Gets the Key based on a Vertex
+        /// <para>Warning! This can be quite slow in larger Graphs!</para>
+        /// </summary>
+        /// <param name="v">The Vertex of the key</param>
+        /// <returns>The key of the Vertex</returns>
+        public virtual TKey GetKey(Vertex v) {
+            if(v == null)
+                throw new ArgumentNullException(string.Format("Key of type {0} was null", typeof(TKey)));
+
+            if (!verteces.ContainsValue(v))
+                return default;
+
+            return verteces.FirstOrDefault(x => x.Value == v).Key;
+        }
+
+        /// <summary>
+        /// Checks whether a key exists in the Graph
+        /// </summary>
+        /// <param name="key">The key to check for</param>
+        /// <exception cref="ArgumentNullException">Throws an Argument Null Exception if the key given is null</exception>
+        /// <returns>True if the key is registered</returns>
+        public virtual bool ContainsKey(TKey key) {
+            if (key == null)
+                throw new ArgumentNullException(string.Format("Key of type {0} was null", typeof(TKey)));
+
+            return verteces.ContainsKey(key);
+        }
+
+        /// <summary>
         /// Registers an Edge between two Verteces
         /// </summary>
         /// <param name="from">The starting Vertex</param>
         /// <param name="to">The ending Vertex</param>
         /// <exception cref="ArgumentNullException">Throws an Argument Null Exception if either keys is null</exception>
         /// <returns>True if all goes well, false if either keys doesn't have a Vertex</returns>
-        public bool RegisterEdge(TKey from, TKey to) {
+        public virtual bool RegisterEdge(TKey from, TKey to) {
             if (from == null || to == null)
                 throw new ArgumentNullException(string.Format("Key of type {0} was null", typeof(TKey)));
 

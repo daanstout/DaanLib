@@ -26,7 +26,7 @@ namespace DaanLib.Graphs {
         /// <summary>
         /// The list of adjacent Edges
         /// </summary>
-        public List<Edge> adjacents;
+        public List<Edge> edgeList;
 
         /// <summary>
         /// Instantiates a new Vertex
@@ -35,7 +35,7 @@ namespace DaanLib.Graphs {
             ID = idSetter.getNextValidId;
 
             this.name = name;
-            adjacents = new List<Edge>();
+            edgeList = new List<Edge>();
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace DaanLib.Graphs {
             if (edge.destination == this)
                 return false;
 
-            adjacents.Add(edge);
+            edgeList.Add(edge);
 
             return true;
         }
