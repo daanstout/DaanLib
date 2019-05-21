@@ -22,7 +22,7 @@ namespace DaanLib.Graphs {
         /// <summary>
         /// The name of this Vertex
         /// </summary>
-        public string name;
+        public readonly string name;
         /// <summary>
         /// The list of adjacent Edges
         /// </summary>
