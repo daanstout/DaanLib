@@ -9,23 +9,23 @@ namespace DaanLib.Datastructures {
     /// A Stack that follows the FILO rules
     /// </summary>
     /// <typeparam name="T">The Type to store in the stack</typeparam>
-    public sealed class Stack<T> {
+    public class Stack<T> {
         /// <summary>
         /// The stack
         /// </summary>
-        private T[] stack;
+        protected T[] stack;
         /// <summary>
         /// The top of the stack
         /// </summary>
-        private int top;
+        protected int top;
         /// <summary>
         /// The max number of elements the stack can hold
         /// </summary>
-        private int maxStackSize;
+        protected int maxStackSize;
         /// <summary>
         /// The current number of relevant elements in the stack
         /// </summary>
-        private int stackSize;
+        protected int stackSize;
 
         public bool IsEmpty => stackSize == 0;
 
@@ -61,10 +61,11 @@ namespace DaanLib.Datastructures {
         /// </summary>
         /// <param name="data">The data to push</param>
         public void Push(T data) {
+            top = stackSize += 1;
+
             if (stackSize == maxStackSize)
                 DoubleStack();
 
-            top = stackSize += 1;
             stack[top] = data;
         }
 
@@ -77,7 +78,7 @@ namespace DaanLib.Datastructures {
         /// <summary>
         /// Doubles the stack
         /// </summary>
-        private void DoubleStack() {
+        protected void DoubleStack() {
             T[] temp = new T[maxStackSize *= 2];
 
             for (int i = 0; i < stackSize; i++)

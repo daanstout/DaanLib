@@ -361,6 +361,25 @@ namespace DaanLib.Maths {
         }
 
         /// <summary>
+        /// Lerps a Vector3D between a starting and end point based on a delta
+        /// <para>A delta of 0 returns the start Vector and a delta of 1 returns the end vector</para>
+        /// <para>A delta below 0 or above 1 returns a Vector3D that is not between the start and end vector</para>
+        /// </summary>
+        /// <param name="start">The start Vector3D</param>
+        /// <param name="end">The end Vector3D</param>
+        /// <param name="delta">The place between the lines</param>
+        /// <returns>The Vector3D between the start and end vector at the delta point</returns>
+        public static Vector3D Lerp(Vector3D start, Vector3D end, float delta) {
+            Vector3D v = new Vector3D();
+
+            v.x = start.x * (1.0f - delta) + end.x * delta;
+            v.y = start.y * (1.0f - delta) + end.y * delta;
+            v.z = start.z * (1.0f - delta) + end.z * delta;
+
+            return v;
+        }
+
+        /// <summary>
         /// Checks the equality of this Vector to another object
         /// </summary>
         /// <param name="obj">The other object</param>

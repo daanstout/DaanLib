@@ -382,6 +382,24 @@ namespace DaanLib.Maths {
         /// <returns>The unsquared length of the vector</returns>
         public static float Vec2DLengthSq(Vector2D v) => v.x * v.x + v.y * v.y;
 
+        /// <summary>
+        /// Lerps a Vector3D between a starting and end point based on a delta
+        /// <para>A delta of 0 returns the start Vector and a delta of 1 returns the end vector</para>
+        /// <para>A delta below 0 or above 1 returns a Vector3D that is not between the start and end vector</para>
+        /// </summary>
+        /// <param name="start">The start Vector3D</param>
+        /// <param name="end">The end Vector3D</param>
+        /// <param name="delta">The place between the lines</param>
+        /// <returns>The Vector3D between the start and end vector at the delta point</returns>
+        public static Vector2D Lerp(Vector2D start, Vector2D end, float delta) {
+            Vector2D v = new Vector2D();
+
+            v.x = start.x * (1.0f - delta) + end.x * delta;
+            v.y = start.y * (1.0f - delta) + end.x * delta;
+
+            return v;
+        }
+
         ///// <summary>
         ///// Checks whether the 2 vectors are equal
         ///// </summary>
